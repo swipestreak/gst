@@ -1,0 +1,6 @@
+---
+Name: swipestreak-gst-config
+---
+StreakGSTModule:
+  currency_percentages:
+    NZD: 15.0

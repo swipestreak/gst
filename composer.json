@@ -1,0 +1,27 @@
+{
+    "name": "swipestreak/gst",
+    "type": "silverstripe-module",
+    "description": "Simple GST Module for SwipeStripe",
+    "homepage": "http://www.crackerjack.net.nz/",
+    "license": "BSD-3-Clause",
+    "keywords": ["silverstripe", "swipestripe", "gst", "modification"],
+    "authors": [
+        {
+            "name": "Steve Wake",
+            "homepage": "https://github.com/wakes"
+        },
+        {
+            "name": "CrackerJack Digital",
+            "homepage": "http://www.crackerjack.net.nz/"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.2",
+        "composer/installers": "*",
+        "silverstripe/framework": "3.1.*"
+    },
+    "extra": {
+        "installer-name": "swipestreak-gst"
+    },
+    "minimum-stability": "dev"
+}

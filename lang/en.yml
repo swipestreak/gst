@@ -1,0 +1,3 @@
+en:
+  StreakGSTModule:
+    Description: 'Includes GST at {percentage}%'
