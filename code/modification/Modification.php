@@ -30,7 +30,6 @@ class StreakGST_Modification extends Modification {
      */
     public function add($order, $value = null) {
         $gst = new Price();
-        // TODO copy this line wherever 'NZD' is hardcoded for a currency
         $gst->setCurrency(ShopConfig::current_shop_config()->BaseCurrency);
 
         $descriptions = array();
@@ -72,9 +71,17 @@ class StreakGST_Modification extends Modification {
             $mod->OrderID = $order->ID;
             $mod->Price = 0;
             $mod->Description = implode("<br/>\n", $descriptions);
+            $mod->GST = $calculated->getAmount();
             $mod->Value = $calculated->getAmount();
             $mod->write();
         }
+    }
+
+    public function Price() {
+        $price = new Price();
+        $price->setCurrency($this->Currency);
+        $price->setAmount($this->GST);
+        return $price;
     }
     /**
      * Add shipping region code dropdown to form.
@@ -85,18 +92,18 @@ class StreakGST_Modification extends Modification {
 
         $field = new StreakGST_ModifierField(
             $this,
-            'Including GST of'
+            self::description()
         );
         /** @var Price $price */
         $price = Price::create();
-        $price->setAmount($this->Value);
+        $price->setAmount($this->GST);
         $field->setAmount($price);
 
         $fields->push($field);
         return $fields;
     }
 
-    public static function description($currency) {
+    public static function description($currency = null) {
         $rate = self::rate_for_currency($currency);
 
         return _t(
@@ -106,7 +113,9 @@ class StreakGST_Modification extends Modification {
         );
     }
 
-    public static function rate_for_currency($currency) {
+    public static function rate_for_currency($currency = null) {
+        $currency = $currency ?: ShopConfig::current_shop_config()->BaseCurrency;
+
         $rates = StreakGSTModule::currency_percentages();
 
         return isset($rates[$currency]) ? $rates[$currency] : 0;
